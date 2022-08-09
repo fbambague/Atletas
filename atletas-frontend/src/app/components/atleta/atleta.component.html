@@ -1,0 +1,249 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="titulo">Gestion Atletas</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+      aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <button type="button" style="margin-left: 10px" id="btnAddModalModal" class="btn btn-outline-light"
+            data-bs-toggle="modal" data-bs-target="#addModal">Agregar Atleta
+            <span class="visually-hidden">(current)</span>
+          </button>
+        </li>
+        <!--</li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>-->
+      </ul>
+      <!--
+      <form class="d-flex">
+        <input class="form-control me-sm-2" type="text" (ngModelChange)="searchPlayer(key.value)" #key="ngModel" ngModel id="searchplayer" name="searchplayer" placeholder="Search Player...">
+      </form>
+      -->
+    </div>
+  </div>
+</nav>
+
+
+
+<!-- https://www.bootdey.com/snippets/view/User-list-page -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="main-box clearfix">
+        <div class="table-responsive">
+          <table class="table user-list">
+            <thead>
+              <tr>
+                <th><span>Usuario</span></th>
+                <th><span>Fecha de subscripción</span></th>
+                <th class="text-center"><span>Estado</span></th>
+                <th><span>N. de Celular</span></th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let atleta of atletas">
+                <td>
+                  <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                  <a href="http://localhost4200/infoAtleta" class="user-link">{{atleta.nombre}} {{atleta.apellido}}</a>
+                  <span class="user-subhead">Id: {{atleta.identification}}</span>
+                </td>
+                <td>
+                  {{atleta.fechaIngreso | date: 'dd/mm/yyyy'}}
+                </td>
+                <td>
+                  <span class="label label-success">{{atleta.estado}}</span>
+                </td>
+                <td>
+                  <a href="#">{{atleta.celular}}</a>
+                </td>
+                <td style="width: 15%;" class="text-center">
+                  <a [routerLink]="['/infoAtleta',atleta.idAtleta,atleta.nombre,atleta.apellido,atleta.identification]" class="table-link">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <button class="table-link" (click)="onEditInfo(atleta)" data-bs-toggle="modal" data-bs-target="#addInfoModal">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </button>
+                  <button class="table-link" (click)="onDelete(atleta)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!--
+        <ul class="pagination pull-right">
+          <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+        </ul>
+      -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- Add Player Modal-->
+
+  <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Agregar Atleta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="onAgregarAtleta(addForm)" #addForm="ngForm">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" ngModel placeholder="Nombre" required/>
+            </div>
+            <div class="mb-3">
+              <label for="apellido" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellido" name="apellido" ngModel placeholder="Apellido" required/>
+            </div>
+            <div class="mb-3">
+              <label for="identification" class="form-label">Identificación</label>
+              <input type="text" class="form-control" id="identification" name="identification" ngModel placeholder="Identificación" required/>
+            </div>
+            <div class="mb-3">
+              <label for="direccion" class="form-label">Direccion</label>
+              <input type="text" class="form-control" id="direccion" name="direccion" ngModel placeholder="Direccion" required/>
+            </div>
+            <div class="mb-3">
+              <label for="celular" class="form-label">Celular</label>
+              <input type="text" class="form-control" id="celular" name="celular" ngModel placeholder="Celular" required/>
+            </div>
+            <div class="mb-3">
+              <label for="estado" class="form-label">Estado</label>
+              <input type="text" class="form-control" id="estado" name="estado" ngModel placeholder="Estado" required/>
+            </div>
+            <div class="mb-3">
+              <label for="fechaIngreso" class="form-label">Fecha subscripción</label>
+              <input type="date" class="form-control" id="fechaIngreso" name="fechaIngreso" ngModel placeholder="Fecha subscripción" required/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  
+  <!-- Add Info Modal-->
+
+  <div class="modal fade" id="addInfoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addInfoModalLabel">Agregar Información Atleta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #addInfoForm="ngForm" >
+            <input type="hidden" style="display: none" class="form-control" id="idAtleta" name="idAtleta" ngModel="{{editAtleta?.idAtleta}}" placeholder="idAtleta" required/>
+            <div class="mb-3">
+              <label for="estatura" class="form-label">Estatura</label>
+              <input type="text" class="form-control" id="estatura" name="estatura" ngModel placeholder="Estatura" required/>
+            </div>
+            <div class="mb-3">
+              <label for="peso" class="form-label">Peso</label>
+              <input type="text" class="form-control" id="peso" name="peso" ngModel placeholder="Peso" required/>
+            </div>
+            <div class="mb-3">
+              <label for="edad" class="form-label">Edad</label>
+              <input type="text" class="form-control" id="edad" name="edad" ngModel placeholder="Edad" required/>
+            </div>
+            <div class="mb-3">
+              <label for="nivelPeso" class="form-label">Nivel de Peso</label>
+              <input type="text" class="form-control" id="nivelPeso" name="nivelPeso" ngModel placeholder="Nivel de Peso" required/>
+            </div>
+            <div class="mb-3">
+              <label for="imc" class="form-label">IMC</label>
+              <input type="text" class="form-control" id="imc" name="imc" ngModel placeholder="IMC" required/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button (click)="onAgregarInfo(addInfoForm.value)" [disabled]="addInfoForm.invalid" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!--Edit Modal-->
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Editar Atleta</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+  <!-- Delete Modal-->
+
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"  aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">ELiminar Atleta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Desea eliminar a {{deleteAtleta?.nombre}} {{deleteAtleta?.apellido}}</p>
+            
+            <div class="modal-footer">
+              <button type="button" id="closeEditPlayerForm" class="btn btn-secondary"
+                data-bs-dismiss="modal">Cerrar</button>
+              <button (click)="onDeleteAtleta(deleteAtleta?.idAtleta!)" data-bs-dismiss="modal" class="btn btn-warning">Eliminar</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
